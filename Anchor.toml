@@ -1,13 +1,13 @@
 [features]
 seeds = false
-[programs.localnet]
+[programs.devnet]
 buildspace_project = "DUrx4ePymCTDArf4msxweYfRsZKbrjDqD9ELgjSTdoBG"
 
 [registry]
 url = "https://anchor.projectserum.com"
 
 [provider]
-cluster = "localnet"
+cluster = "devnet"
 wallet = "/home/threedevx/.config/solana/id.json"
 
 [scripts]
