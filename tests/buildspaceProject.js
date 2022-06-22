@@ -1,3 +1,4 @@
+
 const anchor = require("@project-serum/anchor");
 
 // Need the system program, will talk about this soon.
@@ -9,6 +10,7 @@ const main = async () => {
   // Create and set the provider. We set it before but we needed to update it, so that it can communicate with our frontend!
   const provider = anchor.AnchorProvider.env();
   anchor.setProvider(provider);
+
 
   const program = anchor.workspace.buildspaceProject;
 
@@ -26,21 +28,34 @@ const main = async () => {
     .signers([baseAccount])
     .rpc();
 
-  console.log("📝 Your transaction signature", tx);
+    console.log("📝 Your transaction signature", tx);
 
-  // Fetch data from the account.
-  let account = await program.account.baseAccount.fetch(baseAccount.publicKey);
-  console.log("👀 GIF Count", account.totalGifs.toString());
-};
-
-const runMain = async () => {
-  try {
-    await main();
-    process.exit(0);
-  } catch (error) {
-    console.error(error);
-    process.exit(1);
+    let account = await program.account.baseAccount.fetch(baseAccount.publicKey);
+    console.log('👀 GIF Count', account.totalGifs.toString())
+  
+    // You'll need to now pass a GIF link to the function! You'll also need to pass in the user submitting the GIF!
+    const newtx = await program.methods.addGif("insert_a_giphy_link_here").accounts({
+      baseAccount: baseAccount.publicKey,
+      user: provider.wallet.publicKey,
+    }).rpc();
+    
+    // Call the account.
+    account = await program.account.baseAccount.fetch(baseAccount.publicKey);
+    console.log('👀 GIF Count', account.totalGifs.toString())
+  
+    // Access gif_list on the account!
+    console.log('👀 GIF List', account.gifList)
   }
-};
+  
+  const runMain = async () => {
+    try {
+      await main();
+      process.exit(0);
+    } catch (error) {
+      console.error(error);
+      process.exit(1);
+    }
+  };
+  //test = "yarn run ts-mocha -p ./tsconfig.json -t 1000000 tests/**/*.ts"
 
-runMain();
+  runMain();
