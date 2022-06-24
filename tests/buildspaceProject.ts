@@ -6,7 +6,6 @@ import { BuildspaceProject } from "../target/types/buildspace_project";
 
 describe("buildspaceProject", () => {
   // Configure the client to use the local cluster.
-  const provider = anchor.AnchorProvider.env();
   const baseAccount = anchor.web3.Keypair.generate();
 
   const { SystemProgram } = anchor.web3;
